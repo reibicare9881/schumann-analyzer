@@ -4,3 +4,4 @@ fpdf2
 pypdf
 python-dotenv
 pillow
+PyMuPDF
