@@ -1,0 +1,15 @@
+# 隱藏環境變數與金鑰
+.env
+
+# 隱藏 Python 暫存檔
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 隱藏虛擬環境資料夾 (如果您有使用的話，通常叫 venv 或 .venv)
+venv/
+.venv/
+env/
+
+# 隱藏 macOS 系統產生的暫存檔
+.DS_Store
