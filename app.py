@@ -46,11 +46,12 @@ LANG_TEXT = {
         "sections": ["心率變化分析", "心律變異(SDNN)分析", "自律神經平衡狀態", "自律神經動態象限解析", "體內陰陽能量比例", "天人合一指數", "生命之花圖譜分析", "整體修復建議"],
         "ref_text": """
         本報告之**心率變異度 (HRV)、SDNN (心跳變異標準差) 與 LF/HF (自律神經頻譜分析)** 等核心生理指標，其運算邏輯與臨床意義係基於以下國際公認之學術文獻與量測標準：
-        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
-        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
-        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
-        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability...](https://www.mdpi.com/2076-3417/15/1/449)
-        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
+
+        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards of measurement...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate Variability Metrics and Norms.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances, a plausible biophysical mechanism...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability as a Biomarker for Stress and Health...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability as a Biomarker for Psychological Resilience...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
         > 💡 **系統宣告與免責聲明：** 上述文獻為本平台硬體擷取「心率、SDNN、LF/HF」之科學基礎。報告中之**「陰陽比例」、「天人合一指數」及「生命之花圖譜」**，為本系統結合東方經絡理療與能量醫學開發之專利視覺化演算法。本報告為輔助健康管理之用，不可替代專業醫療人員之診斷與治療。
         """
@@ -83,10 +84,14 @@ LANG_TEXT = {
         "sections": ["Heart Rate Analysis", "HRV (SDNN) Analysis", "ANS Balance State", "ANS Dynamic Quadrant", "Yin-Yang Energy Ratio", "Unity Index", "Flower of Life Analysis", "Overall Healing Suggestions"],
         "ref_text": """
         The core physiological indicators in this report, such as **Heart Rate Variability (HRV), SDNN, and LF/HF**, are based on the following internationally recognized academic literature and measurement standards:
+
         1. **International HRV Measurement Golden Standard** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
         2. **Modern Clinical Application and Norms of SDNN and ANS Indicators** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **Resonance Effects of ELF on Human EEG and HRV** 👉 [Schumann Resonances, a plausible...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **Latest Review of HRV as a Biomarker for Stress and Health** 👉 [Heart Rate Variability...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **Correlation of HRV with Psychological Resilience and Health** 👉 [Heart Rate Variability...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
-        > 💡 **System Declaration & Disclaimer:** The above literature provides the scientific basis for the hardware extraction. The **"Yin-Yang Ratio," "Unity Index," and "Flower of Life"** are proprietary visual algorithms. This report is intended for health management assistance and cannot replace professional medical diagnosis and treatment.
+        > 💡 **System Declaration & Disclaimer:** The above literature provides the scientific basis for the hardware extraction of "Heart Rate, SDNN, LF/HF". The **"Yin-Yang Ratio," "Unity Index," and "Flower of Life"** are proprietary visual algorithms developed by combining Eastern meridian therapy and energy medicine. This report is intended for health management assistance and cannot replace professional medical diagnosis and treatment.
         """
     },
     "🇨🇳 簡體中文": {
@@ -117,8 +122,12 @@ LANG_TEXT = {
         "sections": ["心率变化分析", "心律变异(SDNN)分析", "自律神经平衡状态", "自律神经动态象限解析", "体内阴阳能量比例", "天人合一指数", "生命之花图谱分析", "整体修复建议"],
         "ref_text": """
         本报告之**心率变异度 (HRV)、SDNN (心跳变异标准差) 与 LF/HF (自律神经频谱分析)** 等核心生理指标，其运算逻辑与临床意义系基于以下国际公认之学术文献与量测标准：
+
         1. **国际 HRV 量测黄金标准指南** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
         2. **SDNN 与自律神经指标的现代临床应用与常模解析** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **极低频电磁场 (ELF) 对人体脑波与心率变异度之共振影响研究** 👉 [Schumann Resonances, a plausible...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **HRV 作为压力与健康生物标记之最新回顾与应用研究** 👉 [Heart Rate Variability...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **HRV 与心理韧性、情绪能力及身体健康之相关性研究** 👉 [Heart Rate Variability...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
         > 💡 **系统宣告与免责声明：** 上述文献为本平台硬体撷取「心率、SDNN、LF/HF」之科学基础。报告中之**「阴阳比例」、「天人合一指数」及「生命之花图谱」**，为本系统结合东方经络理疗与能量医学开发之专利视觉化演算法。本报告为辅助健康管理之用，不可替代专业医疗人员之诊断与治疗。
         """
@@ -151,8 +160,12 @@ LANG_TEXT = {
         "sections": ["心拍数変化分析", "心拍変動(SDNN)分析", "自律神経バランス状態", "自律神経動態象限解析", "体内陰陽エネルギー比率", "天人合一指数", "フラワーオブライフ図譜分析", "総合ヒーリングアドバイス"],
         "ref_text": """
         本レポートにおける**心拍変動 (HRV)、SDNN、LF/HF (自律神経スペクトル分析)** などの主要な生理学的指標は、以下の国際的に認められた学術文献および測定基準に基づいています：
+
         1. **国際HRV測定ゴールデンスタンダード** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
         2. **SDNNと自律神経指標の現代的臨床応用と基準** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **極低周波電磁界 (ELF) がヒトの脳波およびHRVに与える共鳴効果の研究** 👉 [Schumann Resonances, a plausible...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **ストレスと健康のバイオマーカーとしてのHRVに関する最新レビュー** 👉 [Heart Rate Variability...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **HRVと心理的レジリエンス、健康の相関関係に関する研究** 👉 [Heart Rate Variability...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
         > 💡 **システム宣言および免責事項：** 上記の文献は、当システムのハードウェアが抽出する「心拍数、SDNN、LF/HF」の科学的根拠となります。レポート内の**「陰陽比率」「天人合一指数」「フラワーオブライフ」**は、東洋の経絡療法とエネルギー医学を組み合わせた当システム独自の視覚化アルゴリズムです。本レポートは健康管理の補助を目的としており、専門医療従事者による診断および治療に代わるものではありません。
         """
