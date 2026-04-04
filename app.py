@@ -43,7 +43,7 @@ def get_base64_image(image_path):
     
 logo_base64 = get_base64_image("reibi_logo.jpg")
     
-st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", page_icon="logo.jpg")
+st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", page_icon="reibi_logo.jpg")
 
 st.markdown("""
     <style>
