@@ -1,4 +1,5 @@
 import google.generativeai as genai
+import re
 
 def generate_ai_explanation(data, api_key, language="繁體中文"):
     genai.configure(api_key=api_key)
@@ -275,8 +276,10 @@ def generate_ai_explanation(data, api_key, language="繁體中文"):
     # ==========================================
     try:
         response = model.generate_content(prompt)
-        sections = response.text.split("###分隔線###")
+        raw_text = response.text
+        raw_text = re.sub(r'###分隔[線线]###|分隔线|分隔線', '===SECTION_SEPARATOR===', raw_text)
         
+        sections = raw_text.split("===SECTION_SEPARATOR===")
         # 檢查是否剛好切成 8 個段落
         if len(sections) == 8:
             return {
