@@ -17,20 +17,22 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
 def format_ai_text(text):
-    """把 AI 產生的文字強制轉換為漂亮的大標題 HTML 格式"""
     if not isinstance(text, str):
         return text
-        
-    # 1. 斬斷 AI 的廢話問候語：自動尋找第一個「【」，把前面的「你好...」全刪了
-    if "【" in text:
-        text = text[text.find("【"):]
-        
-    # 2. 清除 AI 偶爾殘留的醜陋井號
-    text = text.replace("###", "").replace("**", "").replace("*", "").strip()
     
-    # 3. 核心魔法：使用正則表達式，把所有 【XXX】 強制變成綠色粗體大標題！
-    # 這裡的顏色 #2A5A3B 剛好呼應我們剛剛設定的森林綠 CSS
-    html_title_style = r'<div style="font-size: 1.25rem; font-weight: 800; color: #2A5A3B; margin-top: 20px; margin-bottom: 8px;">\1</div>'
+    # 1. ⚠️【關鍵修正】移除之前建議的 .replace(" ", "")，這會殺死表格！
+    # 我們改為只針對標題與表格的連接處做處理
+    
+    # 2. 強制在表格開始符號「|」前面加上兩個換行符號
+    # 這是為了確保 Markdown 引擎能識別這是一個新的表格區塊
+    text = text.replace("】：|", "】\n\n|").replace("】 ： |", "】\n\n|")
+    
+    # 3. 清理 Markdown 殘留符號
+    text = text.replace("###", "").replace("**", "").strip()
+    
+    # 4. 標題美化 (將 【標題】 轉換為綠色大標題)
+    # 使用正則表達式，確保標題前後有足夠的換行
+    html_title_style = r'<div style="font-size: 1.25rem; font-weight: 800; color: #2A5A3B; margin-top: 24px; margin-bottom: 12px;">\1</div>'
     formatted_text = re.sub(r'(【.*?】)', html_title_style, text)
     
     return formatted_text
