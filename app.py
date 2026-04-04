@@ -41,7 +41,7 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
     
-logo_base64 = get_base64_image("logo.jpg")
+logo_base64 = get_base64_image("reibi_logo.jpg")
     
 st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", page_icon="logo.jpg")
 
@@ -158,7 +158,8 @@ with st.sidebar:
 # ==========================================
 # 2. 主畫面渲染
 # ==========================================
-logo_base64 = get_base64_image("logo.jpg")
+logo_base64 = get_base64_image("reibi_logo.jpg")
+
 if logo_base64:
     st.markdown(
         f"""
