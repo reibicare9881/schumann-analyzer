@@ -2,6 +2,8 @@ import streamlit as st
 import os
 import base64
 import re
+import fitz  # PyMuPDF 套件
+from PIL import Image
 from dotenv import load_dotenv
 
 from parser_module import parse_schumann_report
@@ -157,14 +159,22 @@ if uploaded_file is None:
 else:
     # 預覽區域
     with st.expander("🔍 檢視原始上傳文件"):
-        file_type = uploaded_file.name.split('.')[-1].lower()
-        if file_type in ['png', 'jpg', 'jpeg']:
-            st.image(uploaded_file, width=700)
-        elif file_type == 'pdf':
-            base64_pdf = base64.b64encode(uploaded_file.read()).decode('utf-8')
-            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="500"></iframe>'
-            st.markdown(pdf_display, unsafe_allow_html=True)
-            uploaded_file.seek(0)
+    # 判斷如果是 PDF 檔案
+        if uploaded_file.name.lower().endswith('.pdf'):
+            try:
+                # 使用 PyMuPDF 將 PDF 轉成圖片顯示，絕對防封鎖！
+                doc = fitz.open(stream=uploaded_file.getvalue(), filetype="pdf")
+                for page_num in range(len(doc)):
+                    page = doc.load_page(page_num)
+                    pix = page.get_pixmap(dpi=150) # 設定 dpi=150 讓畫面保持清晰
+                    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                    st.image(img, caption=f"第 {page_num + 1} 頁", use_container_width=True)
+            except Exception as e:
+                st.error(f"預覽 PDF 時發生錯誤: {e}")
+    
+        # 如果是普通的圖片檔案 (png, jpg 等)
+        else:
+            st.image(uploaded_file, use_container_width=True)
 
     # 運算邏輯
     if 'analyze_btn' in locals() and analyze_btn:
