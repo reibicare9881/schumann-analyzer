@@ -16,9 +16,9 @@ from pdf_generator_module import create_full_report_pdf
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-# 🌟 新增：語系字典 (Language Dictionary)
+# 🌟 擴充版：包含國旗的四國語系字典 (Language Dictionary)
 LANG_TEXT = {
-    "繁體中文": {
+    "🇹🇼 繁體中文": {
         "sidebar_title": "請上傳您的報告",
         "upload_label": "請選擇報告檔案",
         "file_ready": "檔案已就緒",
@@ -46,17 +46,16 @@ LANG_TEXT = {
         "sections": ["心率變化分析", "心律變異(SDNN)分析", "自律神經平衡狀態", "自律神經動態象限解析", "體內陰陽能量比例", "天人合一指數", "生命之花圖譜分析", "整體修復建議"],
         "ref_text": """
         本報告之**心率變異度 (HRV)、SDNN (心跳變異標準差) 與 LF/HF (自律神經頻譜分析)** 等核心生理指標，其運算邏輯與臨床意義係基於以下國際公認之學術文獻與量測標準：
-
-        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards of measurement...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
-        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate Variability Metrics and Norms.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
-        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances, a plausible biophysical mechanism...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
-        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability as a Biomarker for Stress and Health...](https://www.mdpi.com/2076-3417/15/1/449)
-        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability as a Biomarker for Psychological Resilience...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
+        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
         > 💡 **系統宣告與免責聲明：** 上述文獻為本平台硬體擷取「心率、SDNN、LF/HF」之科學基礎。報告中之**「陰陽比例」、「天人合一指數」及「生命之花圖譜」**，為本系統結合東方經絡理療與能量醫學開發之專利視覺化演算法。本報告為輔助健康管理之用，不可替代專業醫療人員之診斷與治療。
         """
     },
-    "English": {
+    "🇺🇸 English": {
         "sidebar_title": "Upload Your Report",
         "upload_label": "Choose a report file",
         "file_ready": "File is ready",
@@ -84,14 +83,78 @@ LANG_TEXT = {
         "sections": ["Heart Rate Analysis", "HRV (SDNN) Analysis", "ANS Balance State", "ANS Dynamic Quadrant", "Yin-Yang Energy Ratio", "Unity Index", "Flower of Life Analysis", "Overall Healing Suggestions"],
         "ref_text": """
         The core physiological indicators in this report, such as **Heart Rate Variability (HRV), SDNN, and LF/HF**, are based on the following internationally recognized academic literature and measurement standards:
-
         1. **International HRV Measurement Golden Standard** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
         2. **Modern Clinical Application and Norms of SDNN and ANS Indicators** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
-        3. **Resonance Effects of ELF on Human EEG and HRV** 👉 [Schumann Resonances, a plausible...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
-        4. **Latest Review of HRV as a Biomarker for Stress and Health** 👉 [Heart Rate Variability as a Biomarker...](https://www.mdpi.com/2076-3417/15/1/449)
-        5. **Correlation of HRV with Psychological Resilience and Health** 👉 [Heart Rate Variability as a Biomarker...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
         
-        > 💡 **System Declaration & Disclaimer:** The above literature provides the scientific basis for the hardware extraction of "Heart Rate, SDNN, LF/HF". The **"Yin-Yang Ratio," "Unity Index," and "Flower of Life"** are proprietary visual algorithms developed by combining Eastern meridian therapy and energy medicine. This report is intended for health management assistance and cannot replace professional medical diagnosis and treatment.
+        > 💡 **System Declaration & Disclaimer:** The above literature provides the scientific basis for the hardware extraction. The **"Yin-Yang Ratio," "Unity Index," and "Flower of Life"** are proprietary visual algorithms. This report is intended for health management assistance and cannot replace professional medical diagnosis and treatment.
+        """
+    },
+    "🇨🇳 簡體中文": {
+        "sidebar_title": "请上传您的报告",
+        "upload_label": "请选择报告文件",
+        "file_ready": "文件已就绪",
+        "analyze_btn": " 启动 AI 深度分析",
+        "main_title": "舒曼共振身心灵 AI 解说报告",
+        "subtitle": "透过量子共振数据，探索您内在的能量风景",
+        "info_start": "请从左侧上传您的分析报告开始。",
+        "expander_view": "🔍 检视原始上传文件",
+        "pdf_error": "预览 PDF 时发生错误:",
+        "status_analyzing": " 正在分析报告...",
+        "status_parsing": " 视觉辨识萃取中...",
+        "status_writing": " AI 逻辑撰写中...",
+        "status_layout": " 报告排版中...",
+        "status_complete": " 分析完成！",
+        "toast_success": "报告已生成！",
+        "error_prefix": "发生意外错误:",
+        "expander_raw": " 查看 AI 萃取的原始数据 (开发与检查专用)",
+        "metrics_title": "👤 体验者能量看板",
+        "name": "姓名", "gender": "性别", "age": "年龄", "date": "体验日期",
+        "subjective": "主观状态", "no_check": "无特别勾选", "not_provided": "未提供", "age_unit": " 岁",
+        "tabs_title": "📈 深度 AI 能量解读",
+        "download_btn": "下载完整分析报告 (PDF)",
+        "pdf_filename": "舒曼共振报告",
+        "ref_title": "科学文献与分析依据",
+        "sections": ["心率变化分析", "心律变异(SDNN)分析", "自律神经平衡状态", "自律神经动态象限解析", "体内阴阳能量比例", "天人合一指数", "生命之花图谱分析", "整体修复建议"],
+        "ref_text": """
+        本报告之**心率变异度 (HRV)、SDNN (心跳变异标准差) 与 LF/HF (自律神经频谱分析)** 等核心生理指标，其运算逻辑与临床意义系基于以下国际公认之学术文献与量测标准：
+        1. **国际 HRV 量测黄金标准指南** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **SDNN 与自律神经指标的现代临床应用与常模解析** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        
+        > 💡 **系统宣告与免责声明：** 上述文献为本平台硬体撷取「心率、SDNN、LF/HF」之科学基础。报告中之**「阴阳比例」、「天人合一指数」及「生命之花图谱」**，为本系统结合东方经络理疗与能量医学开发之专利视觉化演算法。本报告为辅助健康管理之用，不可替代专业医疗人员之诊断与治疗。
+        """
+    },
+    "🇯🇵 日本語": {
+        "sidebar_title": "レポートをアップロード",
+        "upload_label": "ファイルを選択してください",
+        "file_ready": "ファイルの準備が完了しました",
+        "analyze_btn": " AIディープ分析を開始",
+        "main_title": "シューマン共振 心身AI解説レポート",
+        "subtitle": "量子共鳴データを通じて、あなたの内なるエネルギーの風景を探求します",
+        "info_start": "左側のサイドバーから分析レポートをアップロードして開始してください。",
+        "expander_view": "🔍 アップロードした元ファイルを表示",
+        "pdf_error": "PDFプレビューエラー:",
+        "status_analyzing": " レポートを分析中...",
+        "status_parsing": " 視覚データを抽出中...",
+        "status_writing": " AIロジックを構築中...",
+        "status_layout": " レポートをフォーマット中...",
+        "status_complete": " 分析完了！",
+        "toast_success": "レポートが作成されました！",
+        "error_prefix": "予期せぬエラーが発生しました:",
+        "expander_raw": " AI抽出の生データを確認 (開発・検証用)",
+        "metrics_title": "👤 体験者エネルギーダッシュボード",
+        "name": "氏名", "gender": "性別", "age": "年齢", "date": "体験日",
+        "subjective": "主観的状態", "no_check": "選択なし", "not_provided": "未提供", "age_unit": " 歳",
+        "tabs_title": "📈 AI 深層エネルギー解読",
+        "download_btn": "完全版分析レポートをダウンロード (PDF)",
+        "pdf_filename": "シューマン共振レポート",
+        "ref_title": "科学的文献と分析の根拠",
+        "sections": ["心拍数変化分析", "心拍変動(SDNN)分析", "自律神経バランス状態", "自律神経動態象限解析", "体内陰陽エネルギー比率", "天人合一指数", "フラワーオブライフ図譜分析", "総合ヒーリングアドバイス"],
+        "ref_text": """
+        本レポートにおける**心拍変動 (HRV)、SDNN、LF/HF (自律神経スペクトル分析)** などの主要な生理学的指標は、以下の国際的に認められた学術文献および測定基準に基づいています：
+        1. **国際HRV測定ゴールデンスタンダード** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **SDNNと自律神経指標の現代的臨床応用と基準** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        
+        > 💡 **システム宣言および免責事項：** 上記の文献は、当システムのハードウェアが抽出する「心拍数、SDNN、LF/HF」の科学的根拠となります。レポート内の**「陰陽比率」「天人合一指数」「フラワーオブライフ」**は、東洋の経絡療法とエネルギー医学を組み合わせた当システム独自の視覚化アルゴリズムです。本レポートは健康管理の補助を目的としており、専門医療従事者による診断および治療に代わるものではありません。
         """
     }
 }
@@ -99,22 +162,10 @@ LANG_TEXT = {
 def format_ai_text(text):
     if not isinstance(text, str):
         return text
-    
-    # 1. ⚠️【關鍵修正】移除之前建議的 .replace(" ", "")，這會殺死表格！
-    # 我們改為只針對標題與表格的連接處做處理
-    
-    # 2. 強制在表格開始符號「|」前面加上兩個換行符號
-    # 這是為了確保 Markdown 引擎能識別這是一個新的表格區塊
     text = text.replace("】：|", "】\n\n|").replace("】 ： |", "】\n\n|")
-    
-    # 3. 清理 Markdown 殘留符號
     text = text.replace("###", "").replace("**", "").strip()
-    
-    # 4. 標題美化 (將 【標題】 轉換為綠色大標題)
-    # 使用正則表達式，確保標題前後有足夠的換行
     html_title_style = r'<div style="font-size: 1.25rem; font-weight: 800; color: #2A5A3B; margin-top: 24px; margin-bottom: 12px;">\1</div>'
     formatted_text = re.sub(r'(【.*?】)', html_title_style, text)
-    
     return formatted_text
 
 def get_base64_image(image_path):
@@ -127,117 +178,25 @@ st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", pag
 
 st.markdown("""
     <style>
-    /* 1. 全局字體與背景柔化 */
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Noto Sans TC', sans-serif;
-    }
-    .main {
-        background-color: #F7F9F8;
-    }
-
-    /* 2. 數據看板 (Metrics) 的輕盈感 */
-    .stMetric {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-        border: 1px solid #F0F2F5;
-        transition: transform 0.2s ease;
-    }
-    .stMetric:hover {
-        transform: translateY(-2px);
-    }
-
-    /* 3. AI 解說報告卡的閱讀體驗優化 */
-    .report-card {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 16px;
-        border-left: 6px solid #4F8A65;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-        margin-bottom: 24px;
-        line-height: 1.8;
-        color: #333333;
-        font-size: 1.05rem;
-    }
-
-    /* 4. 標題層次感 */
-    .section-title {
-        color: #2A5A3B;
-        font-weight: 700;
-        margin-top: 25px;
-        margin-bottom: 15px;
-        letter-spacing: 0.5px;
-    }
-
-    /* 5. 漸層按鈕與立體互動 */
-    .stButton>button {
-        width: 100%;
-        border-radius: 30px;
-        height: 3.2em;
-        background: linear-gradient(135deg, #4F8A65 0%, #3A7D44 100%);
-        color: white;
-        font-weight: 600;
-        letter-spacing: 1px;
-        border: none;
-        box-shadow: 0 4px 10px rgba(79, 138, 101, 0.3);
-        transition: all 0.3s ease;
-    }
-    .stButton>button:hover {
-        box-shadow: 0 6px 15px rgba(79, 138, 101, 0.4);
-        transform: translateY(-2px);
-    }
-
-    /* 📱 6. 手機版專屬響應式優化 (Responsive) */
+    html, body, [class*="css"] { font-family: 'Noto Sans TC', sans-serif; }
+    .main { background-color: #F7F9F8; }
+    .stMetric { background-color: #ffffff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); border: 1px solid #F0F2F5; transition: transform 0.2s ease; }
+    .stMetric:hover { transform: translateY(-2px); }
+    .report-card { background-color: #ffffff; padding: 30px; border-radius: 16px; border-left: 6px solid #4F8A65; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04); margin-bottom: 24px; line-height: 1.8; color: #333333; font-size: 1.05rem; }
+    .section-title { color: #2A5A3B; font-weight: 700; margin-top: 25px; margin-bottom: 15px; letter-spacing: 0.5px; }
+    .stButton>button { width: 100%; border-radius: 30px; height: 3.2em; background: linear-gradient(135deg, #4F8A65 0%, #3A7D44 100%); color: white; font-weight: 600; letter-spacing: 1px; border: none; box-shadow: 0 4px 10px rgba(79, 138, 101, 0.3); transition: all 0.3s ease; }
+    .stButton>button:hover { box-shadow: 0 6px 15px rgba(79, 138, 101, 0.4); transform: translateY(-2px); }
     @media (max-width: 768px) {
-        /* Header 切換為上下垂直排列 */
-        .header-container {
-            flex-direction: column !important;
-            text-align: center !important;
-            align-items: center !important;
-        }
-        .header-logo {
-            margin-right: 0 !important;
-            margin-bottom: 15px !important;
-            width: 65px !important; /* 手機版 Logo 縮小一點 */
-        }
-        .header-title {
-            font-size: 1.6rem !important; /* 標題字體縮小 */
-        }
-        .header-subtitle {
-            font-size: 0.95rem !important;
-        }
-        
-        /* 報告卡片在手機版縮減間距，增加閱讀空間 */
-        .report-card {
-            padding: 20px !important;
-            font-size: 1rem !important;
-        }
-
-        /* 防止表格撐破版面，允許橫向滑動 */
-        div[data-testid="stTable"] {
-            overflow-x: auto;
-        }
+        .header-container { flex-direction: column !important; text-align: center !important; align-items: center !important; }
+        .header-logo { margin-right: 0 !important; margin-bottom: 15px !important; width: 65px !important; }
+        .header-title { font-size: 1.6rem !important; }
+        .header-subtitle { font-size: 0.95rem !important; }
+        .report-card { padding: 20px !important; font-size: 1rem !important; }
+        div[data-testid="stTable"] { overflow-x: auto; }
     }
     </style>
     """, unsafe_allow_html=True)
-
-KEY_MAPPING = {
-    "Name": "姓名", "Gender": "體驗者性別", "Age": "年齡", "Occupation": "職業",
-    "Experience_Date": "體驗日期", "Music": "播放音樂", "Subjective_Conditions": "主觀壓力與身體狀況",
-    "Experience_Time_Sec": "體驗總秒數", "Unity_Index": "天人合一指數", "Balance_Count": "平衡次數",
-    "HR_Pre": "體驗前心率", "HR_Post": "體驗後心率", "HR_Lowest": "過程中最低心率", "HR_Conclusion": "心率官方判定",
-    "SDNN_Pre": "體驗前SDNN", "SDNN_Post": "體驗後SDNN","SDNN_Lowest_Trend": "SDNN波形最低點觀察", "SDNN_Conclusion": "SDNN官方判定",
-    "LF_HF_Value": "LF-HF數值", "LF_HF_Conclusion": "LF/HF官方判定", "LF_HF_Trend": "LF/HF平衡狀態",
-    "Yin_Yang": "陰陽比例", "Flower_of_Life_Colors": "生命之花：主要顏色",
-    "Flower_of_Life_Brightness_Detail": "各色明暗程度",
-    "Flower_of_Life_Brightness": "整體的明暗調性",
-    "Flower_of_Life_Shape": "生命之花：花形結構",
-    "Flower_of_Life_Extent": "生命之花：空間佔比",
-    "Scatter_Plot_Analysis":"40分鐘象限分布圖"
-}
 
 def reset_app_state():
     for key in ["analysis_done", "display_data", "sections", "pdf_bytes"]:
@@ -248,14 +207,19 @@ def reset_app_state():
 # 1. 側邊欄 (Sidebar) - 配置與上傳
 # ==========================================
 with st.sidebar:
-    # 🌟 新增：取得當前選擇的語言設定
-    target_lang = st.selectbox("🌐 Language / 語言", ["繁體中文", "English"], index=0, on_change=reset_app_state)
+    # 🌟 語言選擇器更新：加入國旗與四個選項
+    target_lang = st.selectbox(
+        "🌐 Language / 語言", 
+        ["🇹🇼 繁體中文", "🇨🇳 簡體中文", "🇯🇵 日本語", "🇺🇸 English"], 
+        index=0, 
+        on_change=reset_app_state
+    )
     L = LANG_TEXT[target_lang]
 
     st.title(L["sidebar_title"])
     
     if not api_key:
-        st.error("⚠️ 未偵測到 API Key" if target_lang == "繁體中文" else "⚠️ API Key not detected")
+        st.error("⚠️ 未偵測到 API Key" if "中文" in target_lang else "⚠️ API Key not detected")
         st.stop()
 
     uploaded_file = st.file_uploader(
@@ -276,7 +240,6 @@ with st.sidebar:
 # ==========================================
 logo_base64 = get_base64_image("reibi_logo.jpg")
 
-# 🌟 加上 class 讓 CSS 可以控制手機版排版
 if logo_base64:
     st.markdown(
         f"""
@@ -291,30 +254,25 @@ if logo_base64:
         unsafe_allow_html=True
     )
 else:
-    # 如果 Logo 讀取失敗，顯示原本的文字標題作為備案
     st.markdown(f"# 🌿 {L['main_title']}")
     st.markdown(f"##### {L['subtitle']}")
 
 if uploaded_file is None:
     st.info(L["info_start"])
-    # 展示一張範例圖或說明文字...
 else:
-    # 預覽區域
     with st.expander(L["expander_view"]):
-    # 判斷如果是 PDF 檔案
         if uploaded_file.name.lower().endswith('.pdf'):
             try:
-                # 使用 PyMuPDF 將 PDF 轉成圖片顯示，絕對防封鎖！
                 doc = fitz.open(stream=uploaded_file.getvalue(), filetype="pdf")
                 for page_num in range(len(doc)):
                     page = doc.load_page(page_num)
-                    pix = page.get_pixmap(dpi=150) # 設定 dpi=150 讓畫面保持清晰
+                    pix = page.get_pixmap(dpi=150)
                     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                    st.image(img, caption=f"第 {page_num + 1} 頁" if target_lang == "繁體中文" else f"Page {page_num + 1}", use_container_width=True)
+                    # 依據語系決定頁碼顯示
+                    page_text = f"Page {page_num + 1}" if target_lang == "🇺🇸 English" else (f"ページ {page_num + 1}" if target_lang == "🇯🇵 日本語" else f"第 {page_num + 1} 頁")
+                    st.image(img, caption=page_text, use_container_width=True)
             except Exception as e:
                 st.error(f"{L['pdf_error']} {e}")
-    
-        # 如果是普通的圖片檔案 (png, jpg 等)
         else:
             st.image(uploaded_file, use_container_width=True)
 
@@ -326,7 +284,6 @@ else:
                 parsed_data = parse_schumann_report(uploaded_file, api_key)
                 
                 st.write(L["status_writing"])
-                # 🌟 傳遞目標語言給 AI 分析模組
                 analysis_result = generate_ai_explanation(parsed_data, api_key, language=target_lang)
                 
                 st.write(L["status_layout"])
@@ -346,7 +303,6 @@ else:
                 status.update(label=L["status_complete"], state="complete", expanded=False)
 
             st.session_state["analysis_done"] = True
-            # 🌟 關鍵修改：不強制轉換 Key 為中文，保留英文 Key 讓雙語皆可讀取
             st.session_state["display_data"] = parsed_data
             st.session_state["sections"] = sections
             st.session_state["pdf_bytes"] = pdf_bytes
@@ -361,28 +317,22 @@ else:
     if st.session_state.get("analysis_done"):
         user_data = st.session_state["display_data"]
         
-        # 🌟 加回這裡：讓開發者與使用者可以隨時點開檢查 AI 萃取的原始 JSON 數據
         with st.expander(L["expander_raw"]):
             st.json(user_data)
         
-        # --- 🌟 日期格式化處理 (將 MM-DD-YYYY 轉換為 YYYY-MM-DD) ---
         raw_date = user_data.get("Experience_Date", L["not_provided"])
         formatted_date = L["not_provided"]
         
         if raw_date != L["not_provided"]:
             try:
-                # 原始報告日期格式通常為 07-30-2019
                 parts = raw_date.split('-')
                 if len(parts) == 3:
-                    # 重新排列為 2019-07-30
                     formatted_date = f"{parts[2]}-{parts[0]}-{parts[1]}"
                 else:
                     formatted_date = raw_date
             except:
                 formatted_date = raw_date
 
-        # --- 第一層：數據看板 (Metrics Dashboard) ---
-        # 這裡移除了「體驗總秒數」與「播放音樂」，並將資訊整合為一排
         st.markdown(f"<h3 class='section-title'>{L['metrics_title']}</h3>", unsafe_allow_html=True)
         
         m_col1, m_col2, m_col3, m_col4 = st.columns(4)
@@ -396,12 +346,9 @@ else:
         with m_col4:
             st.metric(L["date"], formatted_date)
 
-        # 顯示主觀狀態
         st.info(f"** {L['subjective']}：** {user_data.get('Subjective_Conditions', L['no_check'])}")
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 第二層：分頁顯示解說報告 (Tabs) ---
-        # (此部分保持不變)
         st.markdown(f"<h3 class='section-title'>{L['tabs_title']}</h3>", unsafe_allow_html=True)
         
         tab_titles = [s[0] for s in st.session_state["sections"]]
@@ -409,18 +356,10 @@ else:
 
         for i, tab in enumerate(tabs):
             with tab:
-                # 1. 取出 AI 寫好的原始內容
                 content = st.session_state["sections"][i][1]
-                
-                # 2. 🌟 呼叫我們在最上方寫好的「文字濾水器」，強迫變成綠色大標題
                 formatted_content = format_ai_text(content)
-                
-                # 3. 丟進具備高級陰影與圓角的 report-card 容器中渲染
                 st.markdown(f"<div class='report-card'>{formatted_content}</div>", unsafe_allow_html=True)
 
-        # 下載按鈕與底部文獻保持不變...
-
-        # 下載按鈕
         dl_name = user_data.get("Name", "Report")
         st.download_button(
             label=L["download_btn"],
@@ -430,7 +369,6 @@ else:
             use_container_width=True
         )
 
-        # --- 第四層：科學文獻與分析依據 (更新後的完整 5 篇) ---
         st.markdown("---")
         st.markdown(f"### {L['ref_title']}")
         st.markdown(L["ref_text"])
