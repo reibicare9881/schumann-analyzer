@@ -16,6 +16,86 @@ from pdf_generator_module import create_full_report_pdf
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
+# 🌟 新增：語系字典 (Language Dictionary)
+LANG_TEXT = {
+    "繁體中文": {
+        "sidebar_title": "請上傳您的報告",
+        "upload_label": "請選擇報告檔案",
+        "file_ready": "檔案已就緒",
+        "analyze_btn": " 啟動 AI 深度分析",
+        "main_title": "舒曼共振身心靈 AI 解說報告",
+        "subtitle": "透過量子共振數據，探索您內在的能量風景",
+        "info_start": "請從左側上傳您的分析報告開始。",
+        "expander_view": "🔍 檢視原始上傳文件",
+        "pdf_error": "預覽 PDF 時發生錯誤:",
+        "status_analyzing": " 正在分析報告...",
+        "status_parsing": " 視覺辨識萃取中...",
+        "status_writing": " AI 邏輯撰寫中...",
+        "status_layout": " 報告排版中...",
+        "status_complete": " 分析完成！",
+        "toast_success": "報告已生成！",
+        "error_prefix": "發生意外錯誤:",
+        "expander_raw": " 查看 AI 萃取的原始數據 (開發與檢查專用)",
+        "metrics_title": "👤 體驗者能量看板",
+        "name": "姓名", "gender": "性別", "age": "年齡", "date": "體驗日期",
+        "subjective": "主觀狀態", "no_check": "無特別勾選", "not_provided": "未提供", "age_unit": " 歲",
+        "tabs_title": "📈 深度 AI 能量解讀",
+        "download_btn": "下載完整分析報告 (PDF)",
+        "pdf_filename": "舒曼共振報告",
+        "ref_title": "科學文獻與分析依據",
+        "sections": ["心率變化分析", "心律變異(SDNN)分析", "自律神經平衡狀態", "自律神經動態象限解析", "體內陰陽能量比例", "天人合一指數", "生命之花圖譜分析", "整體修復建議"],
+        "ref_text": """
+        本報告之**心率變異度 (HRV)、SDNN (心跳變異標準差) 與 LF/HF (自律神經頻譜分析)** 等核心生理指標，其運算邏輯與臨床意義係基於以下國際公認之學術文獻與量測標準：
+
+        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards of measurement...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate Variability Metrics and Norms.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances, a plausible biophysical mechanism...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability as a Biomarker for Stress and Health...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability as a Biomarker for Psychological Resilience...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
+        
+        > 💡 **系統宣告與免責聲明：** 上述文獻為本平台硬體擷取「心率、SDNN、LF/HF」之科學基礎。報告中之**「陰陽比例」、「天人合一指數」及「生命之花圖譜」**，為本系統結合東方經絡理療與能量醫學開發之專利視覺化演算法。本報告為輔助健康管理之用，不可替代專業醫療人員之診斷與治療。
+        """
+    },
+    "English": {
+        "sidebar_title": "Upload Your Report",
+        "upload_label": "Choose a report file",
+        "file_ready": "File is ready",
+        "analyze_btn": " Start AI Deep Analysis",
+        "main_title": "Schumann Resonance AI Report",
+        "subtitle": "Explore your inner energy landscape through quantum resonance data",
+        "info_start": "Please upload your report from the left sidebar to begin.",
+        "expander_view": "🔍 View Original Uploaded File",
+        "pdf_error": "Error previewing PDF:",
+        "status_analyzing": " Analyzing report...",
+        "status_parsing": " Extracting visual data...",
+        "status_writing": " Generating AI logic...",
+        "status_layout": " Formatting report...",
+        "status_complete": " Analysis Complete!",
+        "toast_success": "Report Generated!",
+        "error_prefix": "Unexpected error:",
+        "expander_raw": " View Raw AI Extracted Data (For Dev/Check)",
+        "metrics_title": "👤 Experiencer Energy Dashboard",
+        "name": "Name", "gender": "Gender", "age": "Age", "date": "Exp. Date",
+        "subjective": "Subjective Status", "no_check": "None checked", "not_provided": "N/A", "age_unit": " y/o",
+        "tabs_title": "📈 Deep AI Interpretation",
+        "download_btn": "Download Full Analysis Report (PDF)",
+        "pdf_filename": "Schumann_Report",
+        "ref_title": "Scientific Literature & Analysis Basis",
+        "sections": ["Heart Rate Analysis", "HRV (SDNN) Analysis", "ANS Balance State", "ANS Dynamic Quadrant", "Yin-Yang Energy Ratio", "Unity Index", "Flower of Life Analysis", "Overall Healing Suggestions"],
+        "ref_text": """
+        The core physiological indicators in this report, such as **Heart Rate Variability (HRV), SDNN, and LF/HF**, are based on the following internationally recognized academic literature and measurement standards:
+
+        1. **International HRV Measurement Golden Standard** 👉 [Heart rate variability: standards...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
+        2. **Modern Clinical Application and Norms of SDNN and ANS Indicators** 👉 [An Overview of Heart Rate...](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
+        3. **Resonance Effects of ELF on Human EEG and HRV** 👉 [Schumann Resonances, a plausible...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
+        4. **Latest Review of HRV as a Biomarker for Stress and Health** 👉 [Heart Rate Variability as a Biomarker...](https://www.mdpi.com/2076-3417/15/1/449)
+        5. **Correlation of HRV with Psychological Resilience and Health** 👉 [Heart Rate Variability as a Biomarker...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
+        
+        > 💡 **System Declaration & Disclaimer:** The above literature provides the scientific basis for the hardware extraction of "Heart Rate, SDNN, LF/HF". The **"Yin-Yang Ratio," "Unity Index," and "Flower of Life"** are proprietary visual algorithms developed by combining Eastern meridian therapy and energy medicine. This report is intended for health management assistance and cannot replace professional medical diagnosis and treatment.
+        """
+    }
+}
+
 def format_ai_text(text):
     if not isinstance(text, str):
         return text
@@ -168,21 +248,25 @@ def reset_app_state():
 # 1. 側邊欄 (Sidebar) - 配置與上傳
 # ==========================================
 with st.sidebar:
-    st.title("請上傳您的報告")
+    # 🌟 新增：取得當前選擇的語言設定
+    target_lang = st.selectbox("🌐 Language / 語言", ["繁體中文", "English"], index=0, on_change=reset_app_state)
+    L = LANG_TEXT[target_lang]
+
+    st.title(L["sidebar_title"])
     
     if not api_key:
-        st.error("⚠️ 未偵測到 API Key")
+        st.error("⚠️ 未偵測到 API Key" if target_lang == "繁體中文" else "⚠️ API Key not detected")
         st.stop()
 
     uploaded_file = st.file_uploader(
-        "請選擇報告檔案", 
+        L["upload_label"], 
         type=["pdf", "png", "jpg", "jpeg"],
         on_change=reset_app_state
     )
     
     if uploaded_file:
-        st.success("檔案已就緒")
-        analyze_btn = st.button(" 啟動 AI 深度分析")
+        st.success(L["file_ready"])
+        analyze_btn = st.button(L["analyze_btn"])
     
     st.markdown("---")
     st.caption("v2.5 Professional Edition")
@@ -199,8 +283,8 @@ if logo_base64:
         <div class="header-container" style="display: flex; align-items: center; margin-bottom: 25px;">
             <img src="data:image/jpeg;base64,{logo_base64}" class="header-logo" width="80" style="margin-right: 25px;">
             <div>
-                <h1 class="header-title" style="margin: 0; color: #2A5A3B; line-height: 1.2;">舒曼共振身心靈 AI 解說報告</h1>
-                <h5 class="header-subtitle" style="margin: 0; color: #666; font-weight: 400;">透過量子共振數據，探索您內在的能量風景</h5>
+                <h1 class="header-title" style="margin: 0; color: #2A5A3B; line-height: 1.2;">{L["main_title"]}</h1>
+                <h5 class="header-subtitle" style="margin: 0; color: #666; font-weight: 400;">{L["subtitle"]}</h5>
             </div>
         </div>
         """,
@@ -208,15 +292,15 @@ if logo_base64:
     )
 else:
     # 如果 Logo 讀取失敗，顯示原本的文字標題作為備案
-    st.markdown("# 🌿 舒曼共振身心靈 AI 解說報告")
-    st.markdown("##### 透過量子共振數據，探索您內在的能量風景")
+    st.markdown(f"# 🌿 {L['main_title']}")
+    st.markdown(f"##### {L['subtitle']}")
 
 if uploaded_file is None:
-    st.info("請從左側上傳您的分析報告開始。")
+    st.info(L["info_start"])
     # 展示一張範例圖或說明文字...
 else:
     # 預覽區域
-    with st.expander("🔍 檢視原始上傳文件"):
+    with st.expander(L["expander_view"]):
     # 判斷如果是 PDF 檔案
         if uploaded_file.name.lower().endswith('.pdf'):
             try:
@@ -226,9 +310,9 @@ else:
                     page = doc.load_page(page_num)
                     pix = page.get_pixmap(dpi=150) # 設定 dpi=150 讓畫面保持清晰
                     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                    st.image(img, caption=f"第 {page_num + 1} 頁", use_container_width=True)
+                    st.image(img, caption=f"第 {page_num + 1} 頁" if target_lang == "繁體中文" else f"Page {page_num + 1}", use_container_width=True)
             except Exception as e:
-                st.error(f"預覽 PDF 時發生錯誤: {e}")
+                st.error(f"{L['pdf_error']} {e}")
     
         # 如果是普通的圖片檔案 (png, jpg 等)
         else:
@@ -237,37 +321,39 @@ else:
     # 運算邏輯
     if 'analyze_btn' in locals() and analyze_btn:
         try:
-            with st.status(" 正在分析報告...", expanded=True) as status:
-                st.write(" 視覺辨識萃取中...")
+            with st.status(L["status_analyzing"], expanded=True) as status:
+                st.write(L["status_parsing"])
                 parsed_data = parse_schumann_report(uploaded_file, api_key)
                 
-                st.write(" AI 邏輯撰寫中...")
-                analysis_result = generate_ai_explanation(parsed_data, api_key)
+                st.write(L["status_writing"])
+                # 🌟 傳遞目標語言給 AI 分析模組
+                analysis_result = generate_ai_explanation(parsed_data, api_key, language=target_lang)
                 
-                st.write(" 報告排版中...")
+                st.write(L["status_layout"])
                 sections = [
-                    ("心率變化分析", analysis_result.get("section_1", "")),
-                    ("心律變異(SDNN)分析", analysis_result.get("section_2", "")),
-                    ("自律神經平衡狀態", analysis_result.get("section_3", "")),
-                    ("自律神經動態象限解析", analysis_result.get("section_4", "")),
-                    ("體內陰陽能量比例", analysis_result.get("section_5", "")),
-                    ("天人合一指數", analysis_result.get("section_6", "")),
-                    ("生命之花圖譜分析", analysis_result.get("section_7", "")),
-                    ("整體修復建議", analysis_result.get("section_8", ""))
+                    (L["sections"][0], analysis_result.get("section_1", "")),
+                    (L["sections"][1], analysis_result.get("section_2", "")),
+                    (L["sections"][2], analysis_result.get("section_3", "")),
+                    (L["sections"][3], analysis_result.get("section_4", "")),
+                    (L["sections"][4], analysis_result.get("section_5", "")),
+                    (L["sections"][5], analysis_result.get("section_6", "")),
+                    (L["sections"][6], analysis_result.get("section_7", "")),
+                    (L["sections"][7], analysis_result.get("section_8", ""))
                 ]
                 uploaded_file.seek(0)
-                pdf_bytes, _ = create_full_report_pdf(sections, uploaded_file)
+                pdf_bytes, _ = create_full_report_pdf(sections, uploaded_file, language=target_lang)
                 
-                status.update(label=" 分析完成！", state="complete", expanded=False)
+                status.update(label=L["status_complete"], state="complete", expanded=False)
 
             st.session_state["analysis_done"] = True
-            st.session_state["display_data"] = {KEY_MAPPING.get(k, k): v for k, v in parsed_data.items()}
+            # 🌟 關鍵修改：不強制轉換 Key 為中文，保留英文 Key 讓雙語皆可讀取
+            st.session_state["display_data"] = parsed_data
             st.session_state["sections"] = sections
             st.session_state["pdf_bytes"] = pdf_bytes
-            st.toast("報告已生成！", icon="🌿")
+            st.toast(L["toast_success"], icon="🌿")
 
         except Exception as e:
-            st.error(f"發生意外錯誤: {e}")
+            st.error(f"{L['error_prefix']} {e}")
 
     # ==========================================
     # 3. 顯示結果 (Dashboard 模式)
@@ -276,14 +362,14 @@ else:
         user_data = st.session_state["display_data"]
         
         # 🌟 加回這裡：讓開發者與使用者可以隨時點開檢查 AI 萃取的原始 JSON 數據
-        with st.expander(" 查看 AI 萃取的原始數據 (開發與檢查專用)"):
+        with st.expander(L["expander_raw"]):
             st.json(user_data)
         
         # --- 🌟 日期格式化處理 (將 MM-DD-YYYY 轉換為 YYYY-MM-DD) ---
-        raw_date = user_data.get("體驗日期", "未提供")
-        formatted_date = "未提供"
+        raw_date = user_data.get("Experience_Date", L["not_provided"])
+        formatted_date = L["not_provided"]
         
-        if raw_date != "未提供":
+        if raw_date != L["not_provided"]:
             try:
                 # 原始報告日期格式通常為 07-30-2019
                 parts = raw_date.split('-')
@@ -297,26 +383,26 @@ else:
 
         # --- 第一層：數據看板 (Metrics Dashboard) ---
         # 這裡移除了「體驗總秒數」與「播放音樂」，並將資訊整合為一排
-        st.markdown("<h3 class='section-title'>👤 體驗者能量看板</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h3 class='section-title'>{L['metrics_title']}</h3>", unsafe_allow_html=True)
         
         m_col1, m_col2, m_col3, m_col4 = st.columns(4)
         with m_col1:
-            st.metric("姓名", user_data.get("姓名", "未提供"))
+            st.metric(L["name"], user_data.get("Name", L["not_provided"]))
         with m_col2:
-            st.metric("性別", user_data.get("體驗者性別", "未提供"))
+            st.metric(L["gender"], user_data.get("Gender", L["not_provided"]))
         with m_col3:
-            age_val = user_data.get("年齡", "未提供")
-            st.metric("年齡", f"{age_val} 歲" if str(age_val).isdigit() else age_val)
+            age_val = user_data.get("Age", L["not_provided"])
+            st.metric(L["age"], f"{age_val}{L['age_unit']}" if str(age_val).isdigit() else age_val)
         with m_col4:
-            st.metric("體驗日期", formatted_date)
+            st.metric(L["date"], formatted_date)
 
         # 顯示主觀狀態
-        st.info(f"** 主觀狀態：** {user_data.get('主觀壓力與身體狀況', '無特別勾選')}")
+        st.info(f"** {L['subjective']}：** {user_data.get('Subjective_Conditions', L['no_check'])}")
         st.markdown("<br>", unsafe_allow_html=True)
 
         # --- 第二層：分頁顯示解說報告 (Tabs) ---
         # (此部分保持不變)
-        st.markdown("<h3 class='section-title'>📈 深度 AI 能量解讀</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h3 class='section-title'>{L['tabs_title']}</h3>", unsafe_allow_html=True)
         
         tab_titles = [s[0] for s in st.session_state["sections"]]
         tabs = st.tabs(tab_titles)
@@ -335,25 +421,16 @@ else:
         # 下載按鈕與底部文獻保持不變...
 
         # 下載按鈕
+        dl_name = user_data.get("Name", "Report")
         st.download_button(
-            label="下載完整分析報告 (PDF)",
+            label=L["download_btn"],
             data=st.session_state["pdf_bytes"],
-            file_name=f"舒曼共振報告_{user_data.get('姓名')}.pdf",
+            file_name=f"{L['pdf_filename']}_{dl_name}.pdf",
             mime="application/pdf",
             use_container_width=True
         )
 
         # --- 第四層：科學文獻與分析依據 (更新後的完整 5 篇) ---
         st.markdown("---")
-        st.markdown("### 科學文獻與分析依據")
-        st.markdown("""
-        本報告之**心率變異度 (HRV)、SDNN (心跳變異標準差) 與 LF/HF (自律神經頻譜分析)** 等核心生理指標，其運算邏輯與臨床意義係基於以下國際公認之學術文獻與量測標準：
-
-        1. **國際 HRV 量測黃金標準指南** 👉 [Heart rate variability: standards of measurement...](https://pubmed.ncbi.nlm.nih.gov/8598068/)
-        2. **SDNN 與自律神經指標的現代臨床應用與常模解析** 👉 [An Overview of Heart Rate Variability Metrics and Norms.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5624990/)
-        3. **極低頻電磁場 (ELF) 對人體腦波與心率變異度之共振影響研究** 👉 [Schumann Resonances, a plausible biophysical mechanism...](https://pubmed.ncbi.nlm.nih.gov/11826883/)
-        4. **HRV 作為壓力與健康生物標記之最新回顧與應用研究** 👉 [Heart Rate Variability as a Biomarker for Stress and Health...](https://www.mdpi.com/2076-3417/15/1/449)
-        5. **HRV 與心理韌性、情緒能力及身體健康之相關性研究** 👉 [Heart Rate Variability as a Biomarker for Psychological Resilience...](https://doaj.org/article/e5c4600c4dc240709248dfbad75fcd13)
-        
-        > 💡 **系統宣告與免責聲明：** 上述文獻為本平台硬體擷取「心率、SDNN、LF/HF」之科學基礎。報告中之**「陰陽比例」、「天人合一指數」及「生命之花圖譜」**，為本系統結合東方經絡理療與能量醫學開發之專利視覺化演算法。本報告為輔助健康管理之用，不可替代專業醫療人員之診斷與治療。
-        """)
+        st.markdown(f"### {L['ref_title']}")
+        st.markdown(L["ref_text"])

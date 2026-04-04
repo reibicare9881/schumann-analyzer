@@ -7,24 +7,49 @@ def write_cjk_text(pdf, text, line_height=7):
     """專為中文字串設計的精準換行函數，徹底解決 multi_cell 的當機問題"""
     max_w = pdf.w - pdf.l_margin - pdf.r_margin - 2 # 留 2mm 緩衝區
     current_line = ""
-    for char in text:
-        # 計算如果加上下一個字，會不會超過 A4 紙的寬度
-        if pdf.get_string_width(current_line + char) > max_w:
-            # 超過的話，就把目前的字印出來，然後強制換行
-            pdf.cell(0, line_height, txt=current_line, ln=True)
-            current_line = char # 把裝不下的那個字放到下一行
-        else:
-            current_line += char
-    # 把最後剩下的字印出來
-    if current_line:
-        pdf.cell(0, line_height, txt=current_line, ln=True)
+    
+    # 針對英文單字稍微優化的簡單處理
+    words = text.split(' ') if ' ' in text else list(text)
+    
+    if ' ' in text: # 如果是英文句子 (包含空格)
+        for word in words:
+            if pdf.get_string_width(current_line + word + " ") > max_w:
+                pdf.cell(0, line_height, txt=current_line, ln=True)
+                current_line = word + " "
+            else:
+                current_line += word + " "
+    else: # 如果是純中文 (無空格)
+        for char in text:
+            if pdf.get_string_width(current_line + char) > max_w:
+                pdf.cell(0, line_height, txt=current_line, ln=True)
+                current_line = char
+            else:
+                current_line += char
+                
+    if current_line.strip():
+        pdf.cell(0, line_height, txt=current_line.strip(), ln=True)
 
-def create_full_report_pdf(sections, uploaded_file=None):
+# 🌟 新增 language 參數，預設為繁體中文
+def create_full_report_pdf(sections, uploaded_file=None, language="繁體中文"):
     font_path = "NotoSansTC-Regular.ttf"
     has_font = os.path.exists(font_path)
     
     if not has_font:
         return None, False
+
+    # 🌟 根據選擇的語言設定對應的標籤文字
+    if language == "English":
+        main_title_text = "Schumann Resonance Deep Analysis Report"
+        lbl_element = "Element"
+        lbl_chakra = "Chakra"
+        lbl_meaning = "Meaning"
+        lbl_status = "Status"
+    else:
+        main_title_text = "舒曼共振體驗結果深度解析報告"
+        lbl_element = "五行"
+        lbl_chakra = "脈輪"
+        lbl_meaning = "含意"
+        lbl_status = "狀態"
 
     pdf = FPDF()
     
@@ -55,7 +80,7 @@ def create_full_report_pdf(sections, uploaded_file=None):
     # --- 寫入大標題 ---
     pdf.set_font('NotoSans', '', 18)
     pdf.set_text_color(42, 90, 59) # 森林綠
-    pdf.cell(0, 15, txt="舒曼共振體驗結果深度解析報告", align='C', ln=True)
+    pdf.cell(0, 15, txt=main_title_text, align='C', ln=True)
     pdf.ln(5)
     
     # --- 迴圈寫入段落 ---
@@ -85,8 +110,8 @@ def create_full_report_pdf(sections, uploaded_file=None):
                     
                 cells = [c.strip() for c in line.strip("|").split("|")]
                 
-                # 跳過表頭
-                if len(cells) >= 2 and "顏色" in cells[0] and "五行" in cells[1]:
+                # 跳過表頭 (同時檢查中文與英文的表頭關鍵字)
+                if len(cells) >= 2 and ("顏色" in cells[0] or "Color" in cells[0]):
                     continue 
                     
                 if len(cells) >= 5:
@@ -95,13 +120,13 @@ def create_full_report_pdf(sections, uploaded_file=None):
                     # 顏色與屬性大標
                     pdf.set_font('NotoSans', '', 12)
                     pdf.set_text_color(42, 90, 59) 
-                    write_cjk_text(pdf, f"✦ {color} (五行：{wuxing} / 脈輪：{chakra})", line_height=8)
+                    write_cjk_text(pdf, f"✦ {color} ({lbl_element}: {wuxing} / {lbl_chakra}: {chakra})", line_height=8)
                     
                     # 含意與狀態內文
                     pdf.set_font('NotoSans', '', 11)
                     pdf.set_text_color(60, 60, 60)
-                    write_cjk_text(pdf, f"  ▸ 含意：{meaning}", line_height=6)
-                    write_cjk_text(pdf, f"  ▸ 狀態：{status}", line_height=6)
+                    write_cjk_text(pdf, f"  ▸ {lbl_meaning}: {meaning}", line_height=6)
+                    write_cjk_text(pdf, f"  ▸ {lbl_status}: {status}", line_height=6)
                     pdf.ln(2)
                 else:
                     pdf.set_font('NotoSans', '', 11)

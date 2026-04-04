@@ -1,6 +1,6 @@
 import google.generativeai as genai
 
-def generate_ai_explanation(data, api_key):
+def generate_ai_explanation(data, api_key, language="繁體中文"):
     genai.configure(api_key=api_key)
     
     # 💡【強烈建議】：Analyzer 負責「長篇結構化寫作」與「多重邏輯推理」
@@ -54,7 +54,17 @@ def generate_ai_explanation(data, api_key):
     # ==========================================
     # 2. 核心 Prompt 組合
     # ==========================================
+    
+    # 🌟 新增：強力語言指令
+    language_instruction = f"""
+    【極度重要：語言設定 / CRITICAL: Language Setting】
+    請務必全程使用「{language}」來撰寫這份所有的分析報告內容 (包含所有分析、文字與表格內容)。
+    如果語言設定為 English，請確保使用國際標準的醫學、心理學與能量學專業術語，並保持溫暖、專業的語氣。
+    """
+
     prompt = f"""
+    {language_instruction}
+    
     您是一位專業且充滿溫暖同理心的「舒曼共振與身心靈健康顧問」。
     請根據以下體驗者的【舒曼共振床體驗結果數據】與【個人背景狀況】，為其撰寫一份專屬的深度解說報告。
     
@@ -175,7 +185,7 @@ def generate_ai_explanation(data, api_key):
     10.【主觀狀態引用鐵律】：在撰寫任何段落的「綜合解析」並試圖連結使用者的生活狀態時，【絕對只能】嚴格對照傳入之「已勾選主觀項目」名單進行論述。嚴禁自行聯想、猜測或捏造任何未出現在該傳入名單中的症狀。
 
     【 輸出格式絕對要求 】
-    請用繁體中文，語氣溫暖、專業且誠實，直接輸出以下幾個段落的內容。
+    請用溫暖、專業且誠實的語氣，直接輸出以下幾個段落的內容。
     嚴禁使用「系統判定」等冷硬詞彙，請使用「這一般代表...」、「這通常意味著...」等溫暖語氣。
     絕對禁止輸出任何段落標題 (例如「一、心率分析」等)。
     無編號與強制換行排版鐵律：請直接使用「【指標意義】：」等全形中括號標籤開頭，絕對禁止加上任何數字編號（如 1. 2. 3.）。最重要的是：每個標籤項目寫完後，【必須強制換行 (Enter)，並且空一行】，絕對禁止將所有標籤擠在同一個段落裡！
@@ -255,7 +265,7 @@ def generate_ai_explanation(data, api_key):
         response = model.generate_content(prompt)
         sections = response.text.split("###分隔線###")
         
-        # 檢查是否剛好切成 7 個段落
+        # 檢查是否剛好切成 8 個段落
         if len(sections) == 8:
             return {
                 "section_1": sections[0].strip(),
@@ -268,7 +278,7 @@ def generate_ai_explanation(data, api_key):
                 "section_8": sections[7].strip()
             }
         else:
-            # 萬一 AI 暴走沒有乖乖切成 7 段的防呆處理 (修復第七段缺失)
+            # 萬一 AI 暴走沒有乖乖切成 8 段的防呆處理
             return {
                 "section_1": f"生成失敗，AI 未按格式輸出（目前切出 {len(sections)} 段）。",
                 "section_2": "以下為 AI 原始回傳內容，請檢查格式：",
@@ -276,11 +286,12 @@ def generate_ai_explanation(data, api_key):
                 "section_4": "",
                 "section_5": "",
                 "section_6": "",
-                "section_7": ""
+                "section_7": "",
+                "section_8": ""
             }
     except Exception as e:
         return {
             "section_1": f"API 呼叫失敗，錯誤資訊：{str(e)}",
             "section_2": "", "section_3": "", "section_4": "",
-            "section_5": "", "section_6": "", "section_7": ""
+            "section_5": "", "section_6": "", "section_7": "", "section_8": ""
         }
