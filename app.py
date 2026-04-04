@@ -178,8 +178,13 @@ st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", pag
 
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-    html, body, [class*="css"] { font-family: 'Noto Sans TC', sans-serif; }
+    /* 引入多國語言字體 */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    
+    html, body, [class*="css"] { 
+        /* 讓瀏覽器依序尋找合適的字體 */
+        font-family: 'Noto Sans TC', 'Noto Sans SC', 'Noto Sans JP', sans-serif; 
+    }
     .main { background-color: #F7F9F8; }
     .stMetric { background-color: #ffffff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); border: 1px solid #F0F2F5; transition: transform 0.2s ease; }
     .stMetric:hover { transform: translateY(-2px); }
