@@ -37,7 +37,13 @@ def format_ai_text(text):
     
     return formatted_text
 
-st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", page_icon="🌿")
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+    
+logo_base64 = get_base64_image("logo.jpg")
+    
+st.set_page_config(page_title="舒曼共振 AI 解說平台", layout="wide", page_icon="logo.jpg")
 
 st.markdown("""
     <style>
@@ -144,7 +150,7 @@ with st.sidebar:
     
     if uploaded_file:
         st.success("檔案已就緒")
-        analyze_btn = st.button("🚀 啟動 AI 深度分析")
+        analyze_btn = st.button(" 啟動 AI 深度分析")
     
     st.markdown("---")
     st.caption("v2.5 Professional Edition")
@@ -152,8 +158,24 @@ with st.sidebar:
 # ==========================================
 # 2. 主畫面渲染
 # ==========================================
-st.markdown("# 🌿 舒曼共振身心靈 AI 解說報告")
-st.markdown("##### 透過量子共振數據，探索您內在的能量風景")
+logo_base64 = get_base64_image("logo.jpg")
+if logo_base64:
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <img src="data:image/jpeg;base64,{logo_base64}" width="70" style="margin-right: 20px;">
+            <div>
+                <h1 style="margin: 0; color: #2A5A3B;">舒曼共振身心靈 AI 解說報告</h1>
+                <h5 style="margin: 0; color: #666;">透過量子共振數據，探索您內在的能量風景</h5>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    # 如果 Logo 讀取失敗，顯示原本的文字標題作為備案
+    st.markdown("# 🌿 舒曼共振身心靈 AI 解說報告")
+    st.markdown("##### 透過量子共振數據，探索您內在的能量風景")
 
 if uploaded_file is None:
     st.info("請從左側上傳您的分析報告開始。")
@@ -181,14 +203,14 @@ else:
     # 運算邏輯
     if 'analyze_btn' in locals() and analyze_btn:
         try:
-            with st.status("🛠️ 正在分析報告...", expanded=True) as status:
-                st.write("👀 視覺辨識萃取中...")
+            with st.status(" 正在分析報告...", expanded=True) as status:
+                st.write(" 視覺辨識萃取中...")
                 parsed_data = parse_schumann_report(uploaded_file, api_key)
                 
-                st.write("🧠 AI 邏輯撰寫中...")
+                st.write(" AI 邏輯撰寫中...")
                 analysis_result = generate_ai_explanation(parsed_data, api_key)
                 
-                st.write("📝 PDF 報告排版中...")
+                st.write(" 報告排版中...")
                 sections = [
                     ("心率變化分析", analysis_result.get("section_1", "")),
                     ("心律變異(SDNN)分析", analysis_result.get("section_2", "")),
@@ -202,7 +224,7 @@ else:
                 uploaded_file.seek(0)
                 pdf_bytes, _ = create_full_report_pdf(sections, uploaded_file)
                 
-                status.update(label="✅ 分析完成！", state="complete", expanded=False)
+                status.update(label=" 分析完成！", state="complete", expanded=False)
 
             st.session_state["analysis_done"] = True
             st.session_state["display_data"] = {KEY_MAPPING.get(k, k): v for k, v in parsed_data.items()}
@@ -220,7 +242,7 @@ else:
         user_data = st.session_state["display_data"]
         
         # 🌟 加回這裡：讓開發者與使用者可以隨時點開檢查 AI 萃取的原始 JSON 數據
-        with st.expander("⚙️ 查看 AI 萃取的原始數據 (開發與檢查專用)"):
+        with st.expander(" 查看 AI 萃取的原始數據 (開發與檢查專用)"):
             st.json(user_data)
         
         # --- 🌟 日期格式化處理 (將 MM-DD-YYYY 轉換為 YYYY-MM-DD) ---
@@ -255,7 +277,7 @@ else:
             st.metric("體驗日期", formatted_date)
 
         # 顯示主觀狀態
-        st.info(f"**📝 主觀狀態：** {user_data.get('主觀壓力與身體狀況', '無特別勾選')}")
+        st.info(f"** 主觀狀態：** {user_data.get('主觀壓力與身體狀況', '無特別勾選')}")
         st.markdown("<br>", unsafe_allow_html=True)
 
         # --- 第二層：分頁顯示解說報告 (Tabs) ---
@@ -280,7 +302,7 @@ else:
 
         # 下載按鈕
         st.download_button(
-            label="📥 下載完整分析報告 (PDF)",
+            label="下載完整分析報告 (PDF)",
             data=st.session_state["pdf_bytes"],
             file_name=f"舒曼共振報告_{user_data.get('姓名')}.pdf",
             mime="application/pdf",
@@ -289,7 +311,7 @@ else:
 
         # --- 第四層：科學文獻與分析依據 (更新後的完整 5 篇) ---
         st.markdown("---")
-        st.markdown("### 📚 科學文獻與分析依據")
+        st.markdown("### 科學文獻與分析依據")
         st.markdown("""
         本報告之**心率變異度 (HRV)、SDNN (心跳變異標準差) 與 LF/HF (自律神經頻譜分析)** 等核心生理指標，其運算邏輯與臨床意義係基於以下國際公認之學術文獻與量測標準：
 
