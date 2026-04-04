@@ -54,17 +54,17 @@ st.markdown("""
         font-family: 'Noto Sans TC', sans-serif;
     }
     .main {
-        background-color: #F7F9F8; /* 帶有一點點自然綠的極淺灰，比純灰更溫潤 */
+        background-color: #F7F9F8;
     }
 
     /* 2. 數據看板 (Metrics) 的輕盈感 */
     .stMetric {
         background-color: #ffffff;
-        padding: 20px; /* 增加內部留白，讓數字有呼吸空間 */
-        border-radius: 16px; /* 更圓潤的導角 */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* 陰影範圍擴大但顏色調淡，製造懸浮感 */
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         border: 1px solid #F0F2F5;
-        transition: transform 0.2s ease; /* 加入滑鼠懸停的微互動 */
+        transition: transform 0.2s ease;
     }
     .stMetric:hover {
         transform: translateY(-2px);
@@ -73,41 +73,73 @@ st.markdown("""
     /* 3. AI 解說報告卡的閱讀體驗優化 */
     .report-card {
         background-color: #ffffff;
-        padding: 30px; /* 閱讀長文需要更大的邊界 */
+        padding: 30px;
         border-radius: 16px;
-        border-left: 6px solid #4F8A65; /* 改用「鼠尾草綠/莫蘭迪綠」，降低視覺刺眼感 */
+        border-left: 6px solid #4F8A65;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
         margin-bottom: 24px;
-        line-height: 1.8; /* 🌟 舒適閱讀的核心：拉大行距 */
-        color: #333333; /* 避免純黑，降低長時間閱讀的眼睛疲勞 */
-        font-size: 1.05rem; /* 字體稍微放大 */
+        line-height: 1.8;
+        color: #333333;
+        font-size: 1.05rem;
     }
 
     /* 4. 標題層次感 */
     .section-title {
-        color: #2A5A3B; /* 沉穩的森林綠 */
+        color: #2A5A3B;
         font-weight: 700;
         margin-top: 25px;
         margin-bottom: 15px;
-        letter-spacing: 0.5px; /* 增加字距，提升質感 */
+        letter-spacing: 0.5px;
     }
 
     /* 5. 漸層按鈕與立體互動 */
     .stButton>button {
         width: 100%;
-        border-radius: 30px; /* 膠囊狀按鈕更具親和力 */
+        border-radius: 30px;
         height: 3.2em;
-        background: linear-gradient(135deg, #4F8A65 0%, #3A7D44 100%); /* 導入微漸層，增加按鈕層次 */
+        background: linear-gradient(135deg, #4F8A65 0%, #3A7D44 100%);
         color: white;
         font-weight: 600;
         letter-spacing: 1px;
         border: none;
-        box-shadow: 0 4px 10px rgba(79, 138, 101, 0.3); /* 按鈕專屬的發光陰影 */
+        box-shadow: 0 4px 10px rgba(79, 138, 101, 0.3);
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
         box-shadow: 0 6px 15px rgba(79, 138, 101, 0.4);
         transform: translateY(-2px);
+    }
+
+    /* 📱 6. 手機版專屬響應式優化 (Responsive) */
+    @media (max-width: 768px) {
+        /* Header 切換為上下垂直排列 */
+        .header-container {
+            flex-direction: column !important;
+            text-align: center !important;
+            align-items: center !important;
+        }
+        .header-logo {
+            margin-right: 0 !important;
+            margin-bottom: 15px !important;
+            width: 65px !important; /* 手機版 Logo 縮小一點 */
+        }
+        .header-title {
+            font-size: 1.6rem !important; /* 標題字體縮小 */
+        }
+        .header-subtitle {
+            font-size: 0.95rem !important;
+        }
+        
+        /* 報告卡片在手機版縮減間距，增加閱讀空間 */
+        .report-card {
+            padding: 20px !important;
+            font-size: 1rem !important;
+        }
+
+        /* 防止表格撐破版面，允許橫向滑動 */
+        div[data-testid="stTable"] {
+            overflow-x: auto;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -160,14 +192,15 @@ with st.sidebar:
 # ==========================================
 logo_base64 = get_base64_image("reibi_logo.jpg")
 
+# 🌟 加上 class 讓 CSS 可以控制手機版排版
 if logo_base64:
     st.markdown(
         f"""
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <img src="data:image/jpeg;base64,{logo_base64}" width="70" style="margin-right: 20px;">
+        <div class="header-container" style="display: flex; align-items: center; margin-bottom: 25px;">
+            <img src="data:image/jpeg;base64,{logo_base64}" class="header-logo" width="80" style="margin-right: 25px;">
             <div>
-                <h1 style="margin: 0; color: #2A5A3B;">舒曼共振身心靈 AI 解說報告</h1>
-                <h5 style="margin: 0; color: #666;">透過量子共振數據，探索您內在的能量風景</h5>
+                <h1 class="header-title" style="margin: 0; color: #2A5A3B; line-height: 1.2;">舒曼共振身心靈 AI 解說報告</h1>
+                <h5 class="header-subtitle" style="margin: 0; color: #666; font-weight: 400;">透過量子共振數據，探索您內在的能量風景</h5>
             </div>
         </div>
         """,
