@@ -5,3 +5,4 @@ pypdf
 python-dotenv
 pillow
 PyMuPDF
+huggingface_hub

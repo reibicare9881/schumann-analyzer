@@ -9,12 +9,14 @@ from dotenv import load_dotenv
 from parser_module import parse_schumann_report
 from ai_analyzer_module import generate_ai_explanation
 from pdf_generator_module import create_full_report_pdf 
+from huggingface_hub import login
 
 # ==========================================
 # 0. 環境設定與樣式注入
 # ==========================================
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
+# api_key = st.secrets["GEMINI_API_KEY"]
 
 # 🌟 擴充版：包含國旗的四國語系字典 (Language Dictionary)
 LANG_TEXT = {
@@ -35,7 +37,7 @@ LANG_TEXT = {
         "status_complete": " 分析完成！",
         "toast_success": "報告已生成！",
         "error_prefix": "發生意外錯誤:",
-        "expander_raw": " 查看 AI 萃取的原始數據 (開發與檢查專用)",
+        "expander_raw": " 查看 AI 萃取的原始數據 (檢查專用)",
         "metrics_title": "👤 體驗者能量看板",
         "name": "姓名", "gender": "性別", "age": "年齡", "date": "體驗日期",
         "subjective": "主觀狀態", "no_check": "無特別勾選", "not_provided": "未提供", "age_unit": " 歲",
@@ -73,7 +75,7 @@ LANG_TEXT = {
         "status_complete": " Analysis Complete!",
         "toast_success": "Report Generated!",
         "error_prefix": "Unexpected error:",
-        "expander_raw": " View Raw AI Extracted Data (For Dev/Check)",
+        "expander_raw": " View Raw AI Extracted Data (For Check)",
         "metrics_title": "👤 Experiencer Energy Dashboard",
         "name": "Name", "gender": "Gender", "age": "Age", "date": "Exp. Date",
         "subjective": "Subjective Status", "no_check": "None checked", "not_provided": "N/A", "age_unit": " y/o",
@@ -111,7 +113,7 @@ LANG_TEXT = {
         "status_complete": " 分析完成！",
         "toast_success": "报告已生成！",
         "error_prefix": "发生意外错误:",
-        "expander_raw": " 查看 AI 萃取的原始数据 (开发与检查专用)",
+        "expander_raw": " 查看 AI 萃取的原始数据 (检查专用)",
         "metrics_title": "👤 体验者能量看板",
         "name": "姓名", "gender": "性别", "age": "年龄", "date": "体验日期",
         "subjective": "主观状态", "no_check": "无特别勾选", "not_provided": "未提供", "age_unit": " 岁",
@@ -149,7 +151,7 @@ LANG_TEXT = {
         "status_complete": " 分析完了！",
         "toast_success": "レポートが作成されました！",
         "error_prefix": "予期せぬエラーが発生しました:",
-        "expander_raw": " AI抽出の生データを確認 (開発・検証用)",
+        "expander_raw": " AI抽出の生データを確認 (検証用)",
         "metrics_title": "👤 体験者エネルギーダッシュボード",
         "name": "氏名", "gender": "性別", "age": "年齢", "date": "体験日",
         "subjective": "主観的状態", "no_check": "選択なし", "not_provided": "未提供", "age_unit": " 歳",
@@ -310,8 +312,32 @@ else:
     if 'analyze_btn' in locals() and analyze_btn:
         try:
             with st.status(L["status_analyzing"], expanded=True) as status:
+
+                # ==========================================
+                # 🌟 新增：從複雜檔名精準擷取體驗者姓名
+                # 範例：record_林偉仁_07-08-2019_BL84.pdf
+                # ==========================================
+                file_name_with_ext = uploaded_file.name
+                file_name_only = os.path.splitext(file_name_with_ext)[0] 
+                
+                extracted_name = None
+                
+                # 按照底線將檔名切成一塊一塊的清單
+                # ['record', '林偉仁', '07-08-2019', 'BL84', ...]
+                parts = file_name_only.split('_')
+                
+                # 檢查：如果切出來的區塊大於兩個，而且第一個區塊是 "record"
+                if len(parts) >= 2 and parts[0] == "record":
+                    # 抓取清單中的第二個區塊（程式碼索引是從 0 開始，所以 [1] 是第二個）
+                    extracted_name = parts[1]
+                # ==========================================
+                
                 st.write(L["status_parsing"])
                 parsed_data = parse_schumann_report(uploaded_file, api_key)
+
+                # 🌟 攔截並強制覆寫 AI 的結果
+                if extracted_name:
+                    parsed_data["Name"] = extracted_name
                 
                 st.write(L["status_writing"])
                 analysis_result = generate_ai_explanation(parsed_data, api_key, language=target_lang)
@@ -339,7 +365,20 @@ else:
             st.toast(L["toast_success"], icon="🌿")
 
         except Exception as e:
-            st.error(f"{L['error_prefix']} {e}")
+            error_msg = str(e).lower()
+            # 🌟 攔截 Gemini 免費額度爆表的 429 錯誤
+            if "429" in error_msg and "quota" in error_msg:
+                if "繁體中文" in target_lang:
+                    st.error("⚠️ 目前免費額度已滿，請稍後再試或更換 API 金鑰。")
+                elif "簡體中文" in target_lang:
+                    st.error("⚠️ 目前免费额度已满，请稍后再试或更换 API 密钥。")
+                elif "日本語" in target_lang:
+                    st.error("⚠️ 現在、無料利用枠の上限に達しています。後でもう一度お試しください。")
+                else:
+                    st.error("⚠️ The free quota has been exceeded. Please try again later.")
+            else:
+                # 如果是其他錯誤，就照常印出
+                st.error(f"{L['error_prefix']} {e}")
 
     # ==========================================
     # 3. 顯示結果 (Dashboard 模式)
