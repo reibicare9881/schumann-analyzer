@@ -300,11 +300,11 @@ else:
                     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
                     # 依據語系決定頁碼顯示
                     page_text = f"Page {page_num + 1}" if target_lang == "🇺🇸 English" else (f"ページ {page_num + 1}" if target_lang == "🇯🇵 日本語" else f"第 {page_num + 1} 頁")
-                    st.image(img, caption=page_text, use_container_width=True)
+                    st.image(img, caption=page_text, width='stretch')
             except Exception as e:
                 st.error(f"{L['pdf_error']} {e}")
         else:
-            st.image(uploaded_file, use_container_width=True)
+            st.image(uploaded_file, width='stretch')
 
     # 運算邏輯
     if 'analyze_btn' in locals() and analyze_btn:
@@ -396,7 +396,7 @@ else:
             data=st.session_state["pdf_bytes"],
             file_name=f"{L['pdf_filename']}_{dl_name}.pdf",
             mime="application/pdf",
-            use_container_width=True
+            width='stretch'
         )
 
         st.markdown("---")
