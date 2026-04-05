@@ -221,11 +221,11 @@ st.markdown("""
 # ==========================================
 if logo_base64:
     st.markdown(f"""
-        <link rel="apple-touch-icon" href="data:image/jpeg;base64,{logo_base64}">
+        <link rel="apple-touch-icon" href="data:image/jpg;base64,{logo_base64}">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <meta name="apple-mobile-web-app-title" content="舒曼 AI">
-        <link rel="icon" type="image/jpeg" sizes="192x192" href="data:image/jpeg;base64,{logo_base64}">
+        <meta name="apple-mobile-web-app-title" content="REIBI 舒曼體驗AI 解讀">
+        <link rel="icon" type="image/jpg" sizes="192x192" href="data:image/jpg;base64,{logo_base64}">
     """, unsafe_allow_html=True)
 
 def reset_app_state():
