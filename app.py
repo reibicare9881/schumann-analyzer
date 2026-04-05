@@ -216,6 +216,18 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# ==========================================
+# 🌟 新增：手機版桌面 App 圖示 (PWA / Add to Home Screen)
+# ==========================================
+if logo_base64:
+    st.markdown(f"""
+        <link rel="apple-touch-icon" href="data:image/jpeg;base64,{logo_base64}">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="舒曼 AI">
+        <link rel="icon" type="image/jpeg" sizes="192x192" href="data:image/jpeg;base64,{logo_base64}">
+    """, unsafe_allow_html=True)
+
 def reset_app_state():
     for key in ["analysis_done", "display_data", "sections", "pdf_bytes"]:
         if key in st.session_state:
